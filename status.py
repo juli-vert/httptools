@@ -32,3 +32,8 @@ def initbp(status):
     if int(status) in http_status.keys():
         return Response(http_status.get(int(status)), status=status)
     return Response(http_status.get(500), status=500)
+
+@bprint.route('/check', methods=['GET'])
+def check(status):
+  return render_template("home.jinja2")
+  
