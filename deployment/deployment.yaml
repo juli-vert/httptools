@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: httptools
+  name: dmt-httptools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: elb-tools
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: elb-tools
+    spec:
+      containers:
+      - image: docker.io/your-image
+        imagePullPolicy: IfNotPresent
+        name: httptools
+      serviceAccountName: sa-httptools
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-httptools
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: httptools
+  ports:
+  - port: 8888
+    targetPort: 8888
